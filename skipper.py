@@ -6,7 +6,7 @@ def log(text):
         file.write("\n" + text)
 
 def checkSkip(text):
-    text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", "")
+    text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ")
     if len(text) < MIN_SYMBOL:
         log("Too small >>> " + text)
         return True
