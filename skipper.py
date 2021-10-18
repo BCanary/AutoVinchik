@@ -14,9 +14,11 @@ def checkSkip(text):
         if i in text:
             log("Blacklist >>> " + i + " <<< " + text)
             return True
+    print("\n")
     for i in WHITELIST:
         if i in text:
             log("[!!!] Whitelist >>> " + i + " <<< " + text)
             return False
     log("Nonelist >>> " + text)
+    print("\n")
     return SKIP_ALL
