@@ -1,0 +1,5 @@
+*.session
+*.session-journal
+*.txt
+*.json
+config.py
