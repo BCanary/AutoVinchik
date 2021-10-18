@@ -1,6 +1,6 @@
 *.session
 *.session-journal
-*.txt
+log.txt
 *.json
 config.py
 __pycache__
