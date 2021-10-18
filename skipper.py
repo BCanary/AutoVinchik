@@ -7,12 +7,11 @@ def log(text):
 
 def checkSkip(text):
     text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ")
-    for i in WHITELIST:
-        if i in text:
-            print("\n")
-            log("[!!!] Whitelist >>> " + i + " <<< " + text)
-            print("\n")
-            return False
+    if "на самом деле" in text:
+        print("\n")
+        log("Age? >>>" + text)
+        print("\n")
+        return False
     if len(text) < MIN_SYMBOL:
         log("Too small >>> " + text)
         return True
@@ -20,6 +19,12 @@ def checkSkip(text):
         if i in text:
             log("Blacklist >>> " + i + " <<< " + text)
             return True
+    for i in WHITELIST:
+        if i in text:
+            print("\n")
+            log("[!!!] Whitelist >>> " + i + " <<< " + text)
+            print("\n")
+            return False
     print("\n")
     log("Nonelist >>> " + text)
     print("\n")
