@@ -4,3 +4,4 @@
 *.json
 config.py
 __pycache___/
+*.png

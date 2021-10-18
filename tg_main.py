@@ -16,7 +16,7 @@ async def handler(event):
         await client.send_message(BOT, emoji.emojize(":thumbs_down:"))
         time.sleep(DELAY_TG)
     else:
-        input("Any key to skip")
+        input("PRESS ENTER TO SKIP")
         await client.send_message(BOT, emoji.emojize(":thumbs_down:"))
 
 client.start()

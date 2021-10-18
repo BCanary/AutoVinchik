@@ -19,6 +19,6 @@ for event in longpoll.listen():
             vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
             time.sleep(DELAY_VK)
         else:
-            input("Any key to skip")
+            input("PRESS ENTER TO SKIP")
             vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
        
