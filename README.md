@@ -21,8 +21,8 @@
 
 ![1](https://user-images.githubusercontent.com/59798021/137801243-f3068157-bdda-45f9-a1a3-897b8dd4161f.png)
 
-<p align="center">Пример работы</p>
+<p>Пример работы</p>
 
 ![2](https://user-images.githubusercontent.com/59798021/137801261-e23ae881-7b46-4639-81a4-0847c59ab855.png)
 
-<p align="center">Не открыл режим поиска в винчике</p>
+<p>Не открыл режим поиска в винчике</p>
