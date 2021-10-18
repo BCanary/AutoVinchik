@@ -3,3 +3,4 @@
 *.txt
 *.json
 config.py
+__pycache___/
