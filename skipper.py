@@ -42,6 +42,9 @@ def log(text):
 
 def checkSkip(text):
     global config_is_loaded, config
+    if "заканчивай с вопросом выше" in text:
+        log(f"{Fore.GREEN}[!!!] Вас кто-то лайкнул.")
+        return False
     if "смотреть анкеты" in text or "нет такого варианта ответа" in text:
         log(f"{Fore.RED}[!!!] Возможно вы не запустили поиск >>>" + text)
         log(f"{Fore.YELLOW}[!!!] Пробуем запустить поиск...")
@@ -57,12 +60,12 @@ def checkSkip(text):
     if not config_is_loaded:
         config = load_config()
         config_is_loaded = True
-    text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ")
+    text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ").strip()
     if "на самом деле" in text:
         log(f"{Fore.CYAN}Возраст? {Fore.RESET}>>>" + text)
-        return False
+        return config["SKIP_ALL"]
     if len(text) < config["MIN_SYMBOL"]:
-        log(f"{Fore.YELLOW}Мало текста {Fore.RESET}>>> " + text)
+        log(f"{Fore.YELLOW}Мало текста {Fore.RESET}>>> " + text.strip())
         return True
     for i in config["BLACKLIST"]:
         if i in text:

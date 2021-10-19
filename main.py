@@ -57,7 +57,7 @@ def telegram():
     message = client.get_messages(BOT)[0].text.lower()
 
     skip = checkSkip(message)
-    if type(skip) == type(1):
+    if str(type(skip)) == str(type(1)):
         client.send_message(BOT, str(skip))
         time.sleep(2)
         message = client.get_messages(BOT)[0].text.lower()
@@ -117,7 +117,7 @@ while True:
             print(f"{Fore.CYAN}[4].{Fore.RESET} Настройка искомых ключей " + Fore.YELLOW + str(config["WHITELIST"]))
             print(f"{Fore.CYAN}[5].{Fore.RESET} Задержка для ВК " + Fore.YELLOW + "(" + str(config["DELAY_VK"]) + " сек)")
             print(f"{Fore.CYAN}[6].{Fore.RESET} Задержка для Телеграм " + Fore.YELLOW + "(" + str(config["DELAY_TG"]) + " сек)")
-            print(f"{Fore.CYAN}[7].{Fore.RESET} Пропуск нейтральных анкет " + neutral + "(" + n_text + ")")
+            print(f"{Fore.CYAN}[7].{Fore.RESET} Останавливаться только на искомых ключах " + neutral + "(" + n_text + ")")
             print(f"{Fore.CYAN}[8].{Fore.RESET} Минимальное количество символов для пропуска " + Fore.YELLOW + "(" + str(config["MIN_SYMBOL"]) + ")")
             print(f"{Fore.CYAN}[0].{Fore.RESET} Выход из конфигурации")
             do = input(f"{Fore.CYAN}>>>{Fore.RESET} ")
