@@ -43,7 +43,7 @@ try:
 except:
     print(Fore.RED + "Ключ Телеграм не подключен")
 print(Fore.YELLOW + "Инициализация запуска")
-time.sleep(1)
+time.sleep(0.3)
 
 BOT = 'leomatchbot'
 BOT_ID = 1234060895
@@ -95,10 +95,11 @@ def vkontakte():
         input(f"{Fore.CYAN}Для пропуска анкеты нажмите ENTER")
         vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
 
-os.system("cls")
-logo()
+
 
 while True:
+    os.system("cls")
+    logo()
     print(f"{Fore.CYAN}[0].{Fore.RESET} Конфигурация")
     print(f"{Fore.CYAN}[1].{Fore.RESET} Поиск только по телеграм")
     print(f"{Fore.CYAN}[2].{Fore.RESET} Поиск только по вконтакте")
@@ -182,21 +183,24 @@ while True:
             update_config(config)
     elif do == "1":
         mode = 0
-        break
     elif do == "2":
         mode = 1
-        break
     elif do == "3":
         mode = 2
-        break
 
-os.system("cls")
-logo()
-print(f"{Fore.CYAN}{random.choice(quotes)}")
-time.sleep(1)
-print(f"{Fore.YELLOW}Не забудьте запустить режим поиска в сообщениях винчика! {Fore.RESET}\n")
-while True:
-    if(mode == 0 or mode==2):
-        telegram()
-    if(mode == 1 or mode==2):
-        vkontakte()
+    os.system("cls")
+    logo()
+    print(f"{Fore.CYAN}{random.choice(quotes)}")
+    time.sleep(1)
+    print(f"{Fore.YELLOW}Не забудьте запустить режим поиска в сообщениях винчика! {Fore.RESET}\n")
+    print(f"{Fore.YELLOW}Для выхода из поиска нажмите CTRL+C {Fore.RESET}\n")
+    while True:
+        try:
+            if(mode == 0 or mode==2):
+                telegram()
+            if(mode == 1 or mode==2):
+                vkontakte()
+        except KeyboardInterrupt:
+            print(f"{Fore.YELLOW}\nВыход в меню... {Fore.RESET}")
+            time.sleep(0.3)
+            break
