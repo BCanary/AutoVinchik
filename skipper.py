@@ -1,4 +1,5 @@
 import json
+from logging import exception
 from colorama import Fore
 config_is_loaded = False
 config = {}
@@ -7,7 +8,7 @@ def load_config():
     config_exists = True
     with open("config.json", "a+") as file:
         pass
-    
+
     with open("config.json", "r") as file:
         if(len(file.read()) < 3):
             print(f"{Fore.RED}Конфиг не существует")
@@ -41,6 +42,18 @@ def log(text):
 
 def checkSkip(text):
     global config_is_loaded, config
+    if "смотреть анкеты" in text or "нет такого варианта ответа" in text:
+        log(f"{Fore.RED}[!!!] Возможно вы не запустили поиск >>>" + text)
+        log(f"{Fore.YELLOW}[!!!] Пробуем запустить поиск...")
+        findtext = text.replace(" ", "")
+        a = findtext.find("смотретьанкеты")
+        if a == -1:
+            log(f"{Fore.RED}[!!!] Не удалось запустить поиск. Пожалуйста, запустите режим поиска вручную.")
+            raise Exception("Запустите режим поиска в дайвинчике")
+        else:
+            log(f"{Fore.GREEN}[!!!] Режим поиска запущен автоматически.")
+            return int(findtext[a-2])
+            
     if not config_is_loaded:
         config = load_config()
         config_is_loaded = True

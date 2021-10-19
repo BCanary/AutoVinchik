@@ -55,7 +55,15 @@ with open("quotes.txt", "r", encoding="UTF-8") as file:
 def telegram():
     print(f"{Fore.CYAN}TG |{Fore.RESET} ", end="")
     message = client.get_messages(BOT)[0].text.lower()
-    if (checkSkip(message)):
+
+    skip = checkSkip(message)
+    if type(skip) == type(1):
+        client.send_message(BOT, str(skip))
+        time.sleep(2)
+        message = client.get_messages(BOT)[0].text.lower()
+        skip = checkSkip(message)
+
+    if (skip):
         client.send_message(BOT, emoji.emojize(":thumbs_down:"))
         time.sleep(config["DELAY_TG"])
     else:
@@ -65,7 +73,15 @@ def telegram():
 def vkontakte():
     print(f"{Fore.CYAN}VK |{Fore.RESET} ", end="")
     message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
-    if (checkSkip(message)):
+
+    skip = checkSkip(message)
+    if type(skip) == type(1):
+        vk.method("messages.send", {"peer_id": -91050183, "message": str(skip), "random_id": get_random_id()})
+        time.sleep(2)
+        message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
+        skip = checkSkip(message)
+
+    if (skip):
         vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
         time.sleep(config["DELAY_VK"])
     else:
