@@ -57,11 +57,15 @@ def telegram():
     message = client.get_messages(BOT)[0].text.lower()
 
     skip = checkSkip(message)
-    if str(type(skip)) == str(type(1)):
-        client.send_message(BOT, str(skip))
-        time.sleep(2)
-        message = client.get_messages(BOT)[0].text.lower()
-        skip = checkSkip(message)
+    
+    try:
+        if str(type(skip)) == str(type(1)):
+            client.send_message(BOT, str(skip))
+            time.sleep(2)
+            message = client.get_messages(BOT)[0].text.lower()
+            skip = checkSkip(message)
+    except:
+        pass
 
     if (skip):
         client.send_message(BOT, emoji.emojize(":thumbs_down:"))
@@ -75,11 +79,14 @@ def vkontakte():
     message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
 
     skip = checkSkip(message)
-    if type(skip) == type(1):
-        vk.method("messages.send", {"peer_id": -91050183, "message": str(skip), "random_id": get_random_id()})
-        time.sleep(2)
-        message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
-        skip = checkSkip(message)
+    try:
+        if type(skip) == type(1):
+            vk.method("messages.send", {"peer_id": -91050183, "message": str(skip), "random_id": get_random_id()})
+            time.sleep(2)
+            message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
+            skip = checkSkip(message)
+    except:
+        pass
 
     if (skip):
         vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
