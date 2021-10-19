@@ -1,0 +1,11 @@
+{
+    "TOKEN_VK": "",
+    "API_ID": 0,
+    "API_HASH": "",
+    "BLACKLIST": [],
+    "WHITELIST": [],
+    "DELAY_TG": 0.4,
+    "DELAY_VK": 2,
+    "SKIP_ALL": false,
+    "MIN_SYMBOL": 70
+}

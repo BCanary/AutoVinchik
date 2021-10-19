@@ -1,6 +1,7 @@
 *.session
 *.session-journal
 log.txt
+vk_config.v2.json
 *.json
 config.py
 __pycache__
