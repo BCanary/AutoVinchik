@@ -4,4 +4,5 @@ log.txt
 vk_config.v2.json
 *.json
 config.py
+parser.py
 __pycache__
