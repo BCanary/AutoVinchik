@@ -8,9 +8,7 @@ def log(text):
 def checkSkip(text):
     text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ")
     if "на самом деле" in text:
-        print("\n")
         log("Age? >>>" + text)
-        print("\n")
         return False
     if len(text) < MIN_SYMBOL:
         log("Too small >>> " + text)
@@ -25,7 +23,5 @@ def checkSkip(text):
             log("[!!!] Whitelist >>> " + i + " <<< " + text)
             print("\n")
             return False
-    print("\n")
     log("Nonelist >>> " + text)
-    print("\n")
     return SKIP_ALL
