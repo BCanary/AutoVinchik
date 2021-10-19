@@ -6,13 +6,19 @@ def load_config():
     _config = {}
     config_exists = True
     with open("config.json", "a+") as file:
+        pass
+    
+    with open("config.json", "r") as file:
         if(len(file.read()) < 3):
+            print(f"{Fore.RED}Конфиг не существует")
             config_exists=False
 
     if not config_exists:
         with open("config.json", "w", encoding="UTF-8") as file:
             with open("config.json.example", "r", encoding="UTF-8") as config:
+                print(f"{Fore.YELLOW}Копируем стандартный конфиг...")
                 file.write(config.read())
+                print(f"{Fore.GREEN}Конфиг создан!")
 
     with open("config.json", "r", encoding="UTF-8") as file:
         data = json.load(file)
