@@ -5,7 +5,7 @@ config = {}
 def load_config():
     _config = {}
     config_exists = True
-    with open("config.json", "r") as file:
+    with open("config.json", "a+") as file:
         if(len(file.read()) < 3):
             config_exists=False
 
