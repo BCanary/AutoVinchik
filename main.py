@@ -1,4 +1,5 @@
 from json import encoder
+from typing import Container
 import vk_api
 import time
 import emoji 
@@ -96,7 +97,7 @@ def vkontakte():
         vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
 
 
-
+leave_config = False
 while True:
     os.system("cls")
     logo()
@@ -119,8 +120,8 @@ while True:
             print(f"{Fore.CYAN} Получить токен Телеграм - https://tlgrm.ru/docs/api/obtaining_api_id")
             print(f"{Fore.CYAN} Вы можете задать эти значения вручную через файл config.json")
             print("\n")
-            print(f"{Fore.CYAN}[1].{Fore.RESET} Токен ВК " + Fore.YELLOW + "(" + config["TOKEN_VK"] + ")")
-            print(f"{Fore.CYAN}[2].{Fore.RESET} Токен Телеграм " + Fore.YELLOW + "(" + str(config["API_ID"]) + ":" + config["API_HASH"] + ")")
+            print(f"{Fore.CYAN}[1].{Fore.RESET} Токен ВК " + Fore.YELLOW + "(" + config["TOKEN_VK"][:4] + "***" + config["TOKEN_VK"][-4::] + ")")
+            print(f"{Fore.CYAN}[2].{Fore.RESET} Токен Телеграм " + Fore.YELLOW + "(" + str(config["API_ID"])[:2] + "***:***" + config["API_HASH"][-4::] + ")")
             print(f"{Fore.CYAN}[3].{Fore.RESET} Настройка запрещённых ключей " + Fore.YELLOW + str(config["BLACKLIST"]))
             print(f"{Fore.CYAN}[4].{Fore.RESET} Настройка искомых ключей " + Fore.YELLOW + str(config["WHITELIST"]))
             print(f"{Fore.CYAN}[5].{Fore.RESET} Задержка для ВК " + Fore.YELLOW + "(" + str(config["DELAY_VK"]) + " сек)")
@@ -130,6 +131,7 @@ while True:
             print(f"{Fore.CYAN}[0].{Fore.RESET} Выход из конфигурации")
             do = input(f"{Fore.CYAN}>>>{Fore.RESET} ")
             if do == "0":
+                leave_config = True
                 break
             elif do == "1":
                 token = input("Введите токен ВК: ")
@@ -148,7 +150,7 @@ while True:
                     logo()
                     print(f"{Fore.CYAN}ID | Все значения:")
                     for index, i in enumerate(config[type]):
-                        print(f"{Fore.CYAN}[{index}]{Fore.RESET}.{i}")
+                        print(f"{Fore.CYAN}[{index}]{Fore.RESET}. {i}")
                     print("\n")
                     print(f"{Fore.CYAN}Можно указать сразу несколько значений через точку с запятой (;)")
                     print(f"{Fore.CYAN}[1].{Fore.RESET} Удалить значения")
@@ -181,6 +183,9 @@ while True:
                 config["MIN_SYMBOL"] = int(data)
             
             update_config(config)
+    if leave_config:
+        leave_config = False
+        continue
     elif do == "1":
         mode = 0
     elif do == "2":

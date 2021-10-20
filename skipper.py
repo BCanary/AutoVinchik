@@ -42,6 +42,9 @@ def log(text):
 
 def checkSkip(text):
     global config_is_loaded, config
+    if "пришли мне свое местоположение и увидишь кто находится рядом" in text or "хочешь больше взаимок?" in text:
+        log(f"{Fore.YELLOW}Скипаем сообщение от дайвинчика... >>>" + text)
+        return 2
     if "заканчивай с вопросом выше" in text:
         log(f"{Fore.GREEN}[!!!] Вас кто-то лайкнул.")
         return False
@@ -61,21 +64,21 @@ def checkSkip(text):
         config = load_config()
         config_is_loaded = True
     text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ").strip()
-    if "на самом деле" in text:
-        log(f"{Fore.CYAN}Возраст? {Fore.RESET}>>>" + text)
-        return config["SKIP_ALL"]
-    if len(text) < config["MIN_SYMBOL"]:
-        log(f"{Fore.YELLOW}Мало текста {Fore.RESET}>>> " + text.strip())
-        return True
-    for i in config["BLACKLIST"]:
-        if i in text:
-            log(f"{Fore.RED}Запрещённый ключ {Fore.RESET}>>> " + i + " <<< " + text)
-            return True
     for i in config["WHITELIST"]:
         if i in text:
             print("\n")
             log(f"{Fore.GREEN}[!!!] Искомый ключ {Fore.RESET}>>> " + i + " <<< " + text)
             print("\n")
             return False
+    for i in config["BLACKLIST"]:
+        if i in text:
+            log(f"{Fore.RED}Запрещённый ключ {Fore.RESET}>>> " + i + " <<< " + text)
+            return True
+    #if "на самом деле" in text:
+    #    log(f"{Fore.CYAN}Возраст? {Fore.RESET}>>>" + text)
+    #    return config["SKIP_ALL"]
+    if len(text) < config["MIN_SYMBOL"]:
+        log(f"{Fore.YELLOW}Мало текста {Fore.RESET}>>> " + text.strip())
+        return True
     log(f"{Fore.CYAN}Нейтральная анкета {Fore.RESET}>>> " + text)
     return config["SKIP_ALL"]
