@@ -1,6 +1,4 @@
 vk_api
 telethon
 emoji
-logging
 colorama
-json
