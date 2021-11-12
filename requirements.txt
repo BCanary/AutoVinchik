@@ -1,4 +1,4 @@
 vk_api
-telethon
+Telethon
 emoji
 colorama
