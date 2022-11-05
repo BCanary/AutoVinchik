@@ -1,8 +1,14 @@
 import json
 from logging import exception
 from colorama import Fore
+from playsound import playsound
+
 config_is_loaded = False
 config = {}
+
+def notify():
+    playsound("sound.mp3")
+
 def load_config():
     _config = {}
     config_exists = True
@@ -69,6 +75,7 @@ def checkSkip(text):
             print("\n")
             log(f"{Fore.GREEN}[!!!] Искомый ключ {Fore.RESET}>>> " + i + " <<< " + text)
             print("\n")
+            notify()
             return False
     for i in config["BLACKLIST"]:
         if i in text:
@@ -81,4 +88,5 @@ def checkSkip(text):
         log(f"{Fore.YELLOW}Мало текста {Fore.RESET}>>> " + text.strip())
         return True
     log(f"{Fore.CYAN}Нейтральная анкета {Fore.RESET}>>> " + text)
+    notify()
     return config["SKIP_ALL"]

@@ -1,6 +1,5 @@
 vk_api
-telethone
+Telethon
 emoji
-logging
 colorama
-json
+playsound==1.2.2

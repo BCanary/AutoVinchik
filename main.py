@@ -54,11 +54,20 @@ with open("quotes.txt", "r", encoding="UTF-8") as file:
     quotes = [x.strip() for x in file.readlines()]
 
 def telegram():
-    print(f"{Fore.CYAN}TG |{Fore.RESET} ", end="")
-    message = client.get_messages(BOT)[0].text.lower()
-
-    skip = checkSkip(message)
+    time.sleep(0.5) # Не спрашивайте
     
+    print(f"{Fore.CYAN}TG |{Fore.RESET} ", end="")
+    message = client.get_messages(BOT,limit=1)[0].message.lower()
+    
+    if len(message.replace(" ", "")) < 2:
+        message = client.get_messages(BOT)[0].message
+        for i in client.iter_messages(BOT):
+            if (len(i.message) > 0):
+                message = i.message
+                #print(message)
+                break
+        #input("ZXFC")
+    skip = checkSkip(message)
     try:
         if str(type(skip)) == str(type(1)):
             client.send_message(BOT, str(skip))

@@ -2,6 +2,14 @@
 
 ![изображение](https://user-images.githubusercontent.com/59798021/137908712-f20f8aa3-a591-4268-8ea5-c11257bda587.png)
 
+<b>I am the owner of my vkontakte 
+Dai is my body, Vinchik is my blood
+I have watched over a thousand profiles
+Unknown to hate, nor known to love
+Have withstood pain to see many womans
+Yet those hands will never hold any
+So as I pray, Unlimited DaiVinchik Works!</b>
+
 Исправляет глупые ошибки разработчиков винчика, как например скипает людей, возраст которых меньше вашего (настраивается в конфиге путём указания возраста запрещённым ключом, пр. ", 15,"). Позволяет сразу пропускать маргиналов/астролог_инь/малолеток указанием ключей в конфиге.
 
 <h2>Установка</h2>
