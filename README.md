@@ -26,8 +26,8 @@ So as I pray, Unlimited DaiVinchik Works!</b>
 4. Profit! Наслаждаемся скипом <strike>овощей</strike> людей.
 5. Кликать <code>ENTER</code> когда просят, если вам конечно не нравится описание человека.
 
-<h2>Ключи доступа ВК</h2>
-![изображение](https://user-images.githubusercontent.com/59798021/200132035-ff741682-becb-4384-af89-6f5af1a8f560.png)
+<h2>Ключ доступа ВК</h2>
+![image](https://user-images.githubusercontent.com/59798021/200132094-956b4e8a-572c-4ec3-8e6a-fa6eda242b86.png)
 
 <h4>Есть баг когда меняешь конфигурацию поиск может не запустится, решается перезапуском программы</h2>
 
