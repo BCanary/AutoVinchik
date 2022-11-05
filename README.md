@@ -27,7 +27,7 @@ So as I pray, Unlimited DaiVinchik Works!</b>
 5. Кликать <code>ENTER</code> когда просят, если вам конечно не нравится описание человека.
 
 <h2>Ключи доступа ВК</h2>
-![image](https://user-images.githubusercontent.com/59798021/200132035-ff741682-becb-4384-af89-6f5af1a8f560.png)
+![изображение](https://user-images.githubusercontent.com/59798021/200132035-ff741682-becb-4384-af89-6f5af1a8f560.png)
 
 <h4>Есть баг когда меняешь конфигурацию поиск может не запустится, решается перезапуском программы</h2>
 
