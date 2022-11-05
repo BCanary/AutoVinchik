@@ -7,8 +7,9 @@ config_is_loaded = False
 config = {}
 
 def notify():
-    playsound("sound.mp3")
-
+    #playsound("sound.mp3")
+    pass
+    
 def load_config():
     _config = {}
     config_exists = True
