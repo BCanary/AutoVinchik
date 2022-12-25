@@ -10,3 +10,4 @@ stat.txt
 *.txt
 !quotes.txt
 *.mp3
+*.yml
