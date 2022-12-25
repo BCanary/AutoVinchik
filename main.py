@@ -211,13 +211,14 @@ while True:
         mode = 2
     elif do == "4":
         print(f"{Fore.RED} Этот модуль может работать нестабильно. Используйте свою реализацию анализа сообщений если хотите достичь большей точности.")
+        print(f"{Fore.CYAN} Результаты в файле stat.txt. Также можете использовать файл messages.txt для ручного анализа - в нём выгрузка всех сообщений.")
         print(f"{Fore.YELLOW} Подводим статистику...")
         if is_vk_connected:
             print(f"{Fore.CYAN} Считаем ВК")
             a = vk.method("messages.getHistory", {"count": 1, "offset": 0, "peer_id": -91050183})
             count = a["count"]
             print(f"{Fore.GREEN} Всего {count} сообщений. Доступная глубина {int(count/200)} обращений к вк")
-            depth = int(input(f"{Fore.CYAN} Глубина анализа (Число от 1 до {int(count/200)})>> "))
+            depth = int(input(f"{Fore.CYAN} Глубина выгрузки (Число от 1 до {int(count/200)})>> "))
             
             with open("messages.txt", "w", encoding="UTF-8") as file:
                 for j in range(0, depth):
@@ -233,7 +234,7 @@ while True:
             #a = vk.method("messages.getHistory", {"count": 1, "offset": 0, "peer_id": -91050183})
             count = client.get_messages(BOT).total
             print(f"{Fore.GREEN} Всего {count} сообщений. Доступная глубина {int(count/200)} обращений к телеграм")
-            depth = int(input(f"{Fore.CYAN} Глубина анализа (Число от 1 до {int(count/200)})>> "))
+            depth = int(input(f"{Fore.CYAN} Глубина выгрузки (Число от 1 до {int(count/200)})>> "))
             #print(f"{Fore.RED} Подгрузка может занять некоторое время...")
             
             with open("messages.txt", "a", encoding="UTF-8") as file:
@@ -266,7 +267,7 @@ while True:
             for i in c:
                 file.write(str(i) +  " : " + str(c[i]) + "\n")
                 
-        input(f"{Fore.GREEN} Завершено: Результаты в файле stat.txt - Нажмите ENTER")
+        input(f"{Fore.GREEN} Завершено: Нажмите ENTER")
         continue
 
     os.system("cls")
