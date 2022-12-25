@@ -5,14 +5,13 @@ import time
 import emoji 
 from vk_api.utils import get_random_id
 from skipper import checkSkip, load_config, config, update_config
-import logging
 from telethon import TelegramClient, events, sync
 import os
 import colorama
 from colorama import Fore
 import random
 
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
+#logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
 colorama.init(autoreset=True)
 os.system("cls")
