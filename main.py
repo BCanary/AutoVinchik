@@ -10,7 +10,10 @@ import os
 import colorama
 from colorama import Fore
 import random
+from collections import Counter
 
+is_vk_connected = False
+is_tg_connected = False
 #logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
 colorama.init(autoreset=True)
@@ -32,6 +35,8 @@ try:
     vk = vk_api.VkApi(token=config["TOKEN_VK"])
     vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower() # TESTING
     print(Fore.GREEN + "Ключ ВК подключен")
+    is_vk_connected = True
+    
 except:
     print(Fore.RED + "Ключ ВК не подключен")
 
@@ -40,6 +45,7 @@ try:
     client = TelegramClient('AutoVinchik', config["API_ID"], config["API_HASH"])
     client.start()
     print(Fore.GREEN + "Ключ Телеграм подключен")
+    is_tg_connected = True
 except:
     print(Fore.RED + "Ключ Телеграм не подключен")
 print(Fore.YELLOW + "Инициализация запуска")
@@ -113,6 +119,7 @@ while True:
     print(f"{Fore.CYAN}[1].{Fore.RESET} Поиск только по телеграм")
     print(f"{Fore.CYAN}[2].{Fore.RESET} Поиск только по вконтакте")
     print(f"{Fore.CYAN}[3].{Fore.RESET} Комбинированный поиск")
+    print(f"{Fore.CYAN}[4].{Fore.RESET} Подвести статистику")
     do = input(f"{Fore.CYAN}>>>{Fore.RESET} ")
 
     if do == "0":
@@ -127,6 +134,8 @@ while True:
             print(f"{Fore.CYAN} Получить токен ВК (Нужен только доступ к сообщениям) - https://vkhost.github.io/")
             print(f"{Fore.CYAN} Получить токен Телеграм - https://tlgrm.ru/docs/api/obtaining_api_id")
             print(f"{Fore.CYAN} Вы можете задать эти значения вручную через файл config.json")
+            print("\n")
+            print(f"{Fore.YELLOW} [!] Винчик любит присылать всякую рекламу и предложения на которых бот может сломаться. При такой проблеме пропустите объявление и перезапустите программу если она вылетела.")
             print("\n")
             print(f"{Fore.CYAN}[1].{Fore.RESET} Токен ВК " + Fore.YELLOW + "(" + config["TOKEN_VK"][:4] + "***" + config["TOKEN_VK"][-4::] + ")")
             print(f"{Fore.CYAN}[2].{Fore.RESET} Токен Телеграм " + Fore.YELLOW + "(" + str(config["API_ID"])[:2] + "***:***" + config["API_HASH"][-4::] + ")")
@@ -200,6 +209,65 @@ while True:
         mode = 1
     elif do == "3":
         mode = 2
+    elif do == "4":
+        print(f"{Fore.RED} Этот модуль может работать нестабильно. Используйте свою реализацию анализа сообщений если хотите достичь большей точности.")
+        print(f"{Fore.YELLOW} Подводим статистику...")
+        if is_vk_connected:
+            print(f"{Fore.CYAN} Считаем ВК")
+            a = vk.method("messages.getHistory", {"count": 1, "offset": 0, "peer_id": -91050183})
+            count = a["count"]
+            print(f"{Fore.GREEN} Всего {count} сообщений. Доступная глубина {int(count/200)} обращений к вк")
+            depth = int(input(f"{Fore.CYAN} Глубина анализа (Число от 1 до {int(count/200)})>> "))
+            
+            with open("messages.txt", "w", encoding="UTF-8") as file:
+                for j in range(0, depth):
+                    print(f"{Fore.CYAN} Обращение номер: {j+1}")
+                    a = vk.method("messages.getHistory", {"count": 200, "offset": j*200, "peer_id": -91050183})["items"]
+                    
+                    for i in a:
+                        
+                        if (i["from_id"] == -91050183) and (len(i["attachments"]) > 0) and not "Вот твоя анкета:" in i["text"] and not "Так выглядит твоя анкета:" in i["text"]:
+                            file.write(i["text"].replace("\n", " ").replace("Кому-то понравилась твоя анкета:", "").replace("Нашел кое-кого для тебя, смотри:", "") + "\n")
+        if is_tg_connected:  
+            print(f"{Fore.CYAN} Считаем ТГ")
+            #a = vk.method("messages.getHistory", {"count": 1, "offset": 0, "peer_id": -91050183})
+            count = client.get_messages(BOT).total
+            print(f"{Fore.GREEN} Всего {count} сообщений. Доступная глубина {int(count/200)} обращений к телеграм")
+            depth = int(input(f"{Fore.CYAN} Глубина анализа (Число от 1 до {int(count/200)})>> "))
+            #print(f"{Fore.RED} Подгрузка может занять некоторое время...")
+            
+            with open("messages.txt", "a", encoding="UTF-8") as file:
+                for j in range(0, depth):
+                    print(f"{Fore.CYAN} Обращение номер: {j+1}")
+                    messages = client.get_messages(BOT, limit=200, add_offset=200*j)
+                    for index, i in enumerate(messages):
+                        if len(i.message) < 4:
+                            continue
+                        if i.out == True:
+                            continue
+                        if "Вот твоя анкета:" in i.message or "1." in i.message:
+                            continue
+                            
+                        file.write(i.message.replace("\n", " ").replace("Кому-то понравилась твоя анкета:", "").replace("Нашел кое-кого для тебя, смотри:", "") + "\n")
+                        
+                        #if (index % 10 == 0):
+                        #    print(f"{Fore.CYAN} Готово {index} сообщений")
+                            
+        with open("stat.txt", "w", encoding="UTF-8") as file:
+            a = ""
+            with open("messages.txt", "r", encoding="UTF-8") as file2:
+                #for i in file2.readlines():
+                 #   if "," in i:
+                  #      if len(i) < 40:
+                   #         empty+=1;
+                a = [i.replace(",", " ").replace(".", " ").replace("\n", " ").replace(" ", "").lower() for i in file2.read().replace("Too small", "").replace("<<<", "").replace(">>>", "").split(" ")]
+                #print(a)
+            c = dict(sorted(Counter(a).items(), key=lambda x: x[1]))
+            for i in c:
+                file.write(str(i) +  " : " + str(c[i]) + "\n")
+                
+        input(f"{Fore.GREEN} Завершено: Результаты в файле stat.txt - Нажмите ENTER")
+        continue
 
     os.system("cls")
     logo()

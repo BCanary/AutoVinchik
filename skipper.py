@@ -1,7 +1,7 @@
 import json
 from logging import exception
 from colorama import Fore
-from playsound import playsound
+#from playsound import playsound - через жопу всё работает. Можете раскоментировать и попробовать реализовать сами в notify()
 
 config_is_loaded = False
 config = {}
