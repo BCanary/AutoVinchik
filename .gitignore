@@ -9,5 +9,6 @@ __pycache__
 stat.txt
 *.txt
 !quotes.txt
+!banner.txt
 *.mp3
 *.yml
