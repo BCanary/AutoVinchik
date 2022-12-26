@@ -16,6 +16,8 @@ is_vk_connected = False
 is_tg_connected = False
 #logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
+os.system("alias cls=\"clear\"") # Иногда мой внутренний гений. Он просто меня пугает
+
 colorama.init(autoreset=True)
 os.system("cls")
 def logo():
@@ -213,12 +215,17 @@ while True:
         print(f"{Fore.RED} Этот модуль может работать нестабильно. Используйте свою реализацию анализа сообщений если хотите достичь большей точности.")
         print(f"{Fore.CYAN} Результаты в файле stat.txt. Также можете использовать файл messages.txt для ручного анализа - в нём выгрузка всех сообщений.")
         print(f"{Fore.YELLOW} Подводим статистику...")
-        if is_vk_connected:
+        a = input(f" {Fore.YELLOW} Если вы уже производили выгрузку можете её пропустить введя 0 >> ")
+        
+        if is_vk_connected and not (a == "0"):
+            #file.write("[[ВЫГРУЗКА ИЗ ВКОНТАКТЕ]]\n")
             print(f"{Fore.CYAN} Считаем ВК")
             a = vk.method("messages.getHistory", {"count": 1, "offset": 0, "peer_id": -91050183})
             count = a["count"]
             print(f"{Fore.GREEN} Всего {count} сообщений. Доступная глубина {int(count/200)} обращений к вк")
+            #print(f"{Fore.CYAN} 0 для пропуска (Если вы уже выгружали сообщения)")
             depth = int(input(f"{Fore.CYAN} Глубина выгрузки (Число от 1 до {int(count/200)})>> "))
+            
             
             with open("messages.txt", "w", encoding="UTF-8") as file:
                 for j in range(0, depth):
@@ -229,7 +236,7 @@ while True:
                         
                         if (i["from_id"] == -91050183) and (len(i["attachments"]) > 0) and not "Вот твоя анкета:" in i["text"] and not "Так выглядит твоя анкета:" in i["text"]:
                             file.write(i["text"].replace("\n", " ").replace("Кому-то понравилась твоя анкета:", "").replace("Нашел кое-кого для тебя, смотри:", "") + "\n")
-        if is_tg_connected:  
+        if is_tg_connected and not (a == "0"):  
             print(f"{Fore.CYAN} Считаем ТГ")
             #a = vk.method("messages.getHistory", {"count": 1, "offset": 0, "peer_id": -91050183})
             count = client.get_messages(BOT).total
@@ -238,6 +245,7 @@ while True:
             #print(f"{Fore.RED} Подгрузка может занять некоторое время...")
             
             with open("messages.txt", "a", encoding="UTF-8") as file:
+                #file.write("[[ВЫГРУЗКА ИЗ ТЕЛЕГРАМА]]\n")
                 for j in range(0, depth):
                     print(f"{Fore.CYAN} Обращение номер: {j+1}")
                     messages = client.get_messages(BOT, limit=200, add_offset=200*j)
@@ -253,21 +261,109 @@ while True:
                         
                         #if (index % 10 == 0):
                         #    print(f"{Fore.CYAN} Готово {index} сообщений")
-                            
-        with open("stat.txt", "w", encoding="UTF-8") as file:
-            a = ""
-            with open("messages.txt", "r", encoding="UTF-8") as file2:
-                #for i in file2.readlines():
-                 #   if "," in i:
-                  #      if len(i) < 40:
-                   #         empty+=1;
-                a = [i.replace(",", " ").replace(".", " ").replace("\n", " ").replace(" ", "").lower() for i in file2.read().replace("Too small", "").replace("<<<", "").replace(">>>", "").split(" ")]
-                #print(a)
-            c = dict(sorted(Counter(a).items(), key=lambda x: x[1]))
-            for i in c:
-                file.write(str(i) +  " : " + str(c[i]) + "\n")
+        
+        if True:
+            print(f"{Fore.CYAN} Чистим файл от лишних сообщений")  
+            a = input(f"{Fore.CYAN} Чтобы убрать все вхождения с вами введите вашу сигнатуру (Иван, 20, Москва; Иван; Иван, 20) >> ")
+            with open("messages.txt", "r", encoding="UTF-8") as file:
+                with open("clear_messages.txt", "w", encoding="UTF-8") as clear_file:
+                    for i in file.readlines():
+                        if i.count(",") < 2:
+                            continue
+                        if a in i:
+                            continue
+                        if "Расскажи о себе, кого хочешь найти" in i:
+                            continue
+                        if "Кому-то понравилась твоя анкета" in i:
+                            #i.replace("")
+                            pass # Мне лень, давайте оставим, тоже ведь анкета по сути, просто не будем чистить её от сообщения винчика
+                        if "Помни, что в интернете люди могут выдавать себя за других." in i:
+                            continue
+                        if "Время просмотра анкеты истекло, действие не выполнено." in i:
+                            i.replace("Время просмотра анкеты истекло, действие не выполнено.", "")
+                        clear_file.write(i)
+        if not (a=="0"):
+            print(f"{Fore.CYAN} Выгружаем частотную статистику в файл stat.txt...")
+            with open("stat.txt", "w", encoding="UTF-8") as file:
+                a = ""
+                with open("clear_messages.txt", "r", encoding="UTF-8") as file2:
+                    #for i in file2.readlines():
+                     #   if "," in i:
+                      #      if len(i) < 40:
+                       #         empty+=1;
+                    a = [i.replace(",", " ").replace(".", " ").replace("\n", " ").replace(" ", "").lower() for i in file2.read().replace("Too small", "").replace("<<<", "").replace(">>>", "").split(" ")]
+                    #print(a)
+                c = dict(sorted(Counter(a).items(), key=lambda x: x[1]))
+                for i in c:
+                    file.write(str(i) +  " : " + str(c[i]) + "\n")
+
+        less_40 = 0
+        less_60 = 0
+        less_80 = 0
+        less_100 = 0
+        max = 0
+        count = 0
+        lines_count = 0
+        age = {}
+        longest = ""
+        with open("clear_messages.txt", "r", encoding="UTF-8") as file:
+            lines = file.readlines()
+            lines_count = len(lines)
+            print(f"{Fore.CYAN}ВСЕГО АНАЛИЗИРУЕТСЯ {Fore.WHITE}{lines_count}{Fore.CYAN} АНКЕТ")
+            for i in lines:
+                if len(i) > max:
+                    max = len(i)
+                    longest = i
+                if len(i) < 40:
+                    less_40 += 1
+                if len(i) < 60:
+                    less_60 += 1
+                if len(i) < 80:
+                    less_80 += 1
+                if len(i) < 100:
+                    less_100 += 1
+                count += len(i)
                 
-        input(f"{Fore.GREEN} Завершено: Нажмите ENTER")
+                i_age = i.split(",")[1].replace(" ", "")
+                
+                # Адская дрочильня с try except, не осуждайте
+                j = 2
+                while True:
+                    try:
+                        int(i_age)
+                    except ValueError:
+                        try:
+                            i_age = i.split(",")[j].replace(" ", "")
+                            j+=1
+                            continue
+                        except IndexError:
+                            break
+                    except:
+                        break
+                    break
+                try:
+                    int(i_age)
+                    try:
+                        age[int(i_age)] += 1
+                    except KeyError:
+                        age[int(i_age)] = 1
+                except:
+                    continue
+                
+        print(f"{Fore.CYAN} Максимальная длинна анкеты: {Fore.WHITE}{max}{Fore.CYAN} символов")
+        print(f"{Fore.CYAN} Средняя длинна анкеты: {Fore.WHITE}{int(count/lines_count)}{Fore.CYAN} символов\n")
+        print(f"{Fore.CYAN} Анкет меньше 40 символов: {Fore.WHITE}{less_40}{Fore.CYAN} штук")
+        print(f"{Fore.CYAN} Анкет меньше 60 символов: {Fore.WHITE}{less_60}{Fore.CYAN} штук")
+        print(f"{Fore.CYAN} Анкет меньше 80 символов: {Fore.WHITE}{less_80}{Fore.CYAN} штук")
+        print(f"{Fore.CYAN} Анкет меньше 100 символов: {Fore.WHITE}{less_100}{Fore.CYAN} штук\n")
+        
+        od = dict(sorted(age.items()))
+        for i in od:
+            print(f"{Fore.CYAN} Возраст {Fore.WHITE}{i}{Fore.CYAN} лет: {Fore.WHITE}{od[i]}{Fore.CYAN} анкет")
+        
+        print(f"{Fore.CYAN} САМАЯ ДЛИННАЯ АНКЕТА\n{Fore.WHITE}{longest}\n")
+        
+        input(f"\n{Fore.GREEN} Завершено: Нажмите ENTER")
         continue
 
     os.system("cls")
