@@ -72,14 +72,14 @@ def checkSkip(text):
         config_is_loaded = True
     text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ").strip().lower()
     for i in config["WHITELIST"]:
-        if i in text:
+        if i.lower() in text:
             print("\n")
             log(f"{Fore.GREEN}[!!!] Искомый ключ {Fore.RESET}>>> " + i + " <<< " + text)
             print("\n")
             notify()
             return False
     for i in config["BLACKLIST"]:
-        if i in text:
+        if i.lower() in text:
             log(f"{Fore.RED}Запрещённый ключ {Fore.RESET}>>> " + i + " <<< " + text)
             return True
     #if "на самом деле" in text:
