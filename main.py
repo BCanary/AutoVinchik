@@ -92,26 +92,28 @@ def telegram():
         client.send_message(BOT, emoji.emojize(":thumbs_down:"))
 
 def vkontakte():
-    print(f"{Fore.CYAN}VK |{Fore.RESET} ", end="")
-    message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
-
-    skip = checkSkip(message)
     try:
-        if type(skip) == type(1):
-            vk.method("messages.send", {"peer_id": -91050183, "message": str(skip), "random_id": get_random_id()})
-            time.sleep(2)
-            message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
-            skip = checkSkip(message)
-    except:
-        pass
+        print(f"{Fore.CYAN}VK |{Fore.RESET} ", end="")
+        message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
 
-    if (skip):
-        vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
-        time.sleep(config["DELAY_VK"])
-    else:
-        input(f"{Fore.CYAN}Для пропуска анкеты нажмите ENTER")
-        vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
+        skip = checkSkip(message)
+        try:
+            if type(skip) == type(1):
+                vk.method("messages.send", {"peer_id": -91050183, "message": str(skip), "random_id": get_random_id()})
+                time.sleep(2)
+                message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
+                skip = checkSkip(message)
+        except:
+            pass
 
+        if (skip):
+            vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
+            time.sleep(config["DELAY_VK"])
+        else:
+            input(f"{Fore.CYAN}Для пропуска анкеты нажмите ENTER")
+            vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
+    except vk_api.exceptions.Captcha:
+        print(f"{Fore.RED}[КАПЧА]{Fore.WHITE} Пожалуйста, войдите в вк, попробуйте отправить сообщение и введите капчу!")
 
 leave_config = False
 while True:
@@ -215,7 +217,11 @@ while True:
         print(f"{Fore.RED} Этот модуль может работать нестабильно. Используйте свою реализацию анализа сообщений если хотите достичь большей точности.")
         print(f"{Fore.CYAN} Результаты в файле stat.txt. Также можете использовать файл messages.txt для ручного анализа - в нём выгрузка всех сообщений.")
         print(f"{Fore.YELLOW} Подводим статистику...")
-        a = input(f" {Fore.YELLOW} Если вы уже производили выгрузку можете её пропустить введя 0 >> ")
+        a = input(f" {Fore.YELLOW}Если вы уже производили выгрузку можете её пропустить введя 0 >> ")
+        
+        if not (a=="0"):
+            with open("messages.txt", "w", encoding="UTF-8") as file:
+                file.write(" ") # Очищаем файл
         
         if is_vk_connected and not (a == "0"):
             #file.write("[[ВЫГРУЗКА ИЗ ВКОНТАКТЕ]]\n")
@@ -227,7 +233,7 @@ while True:
             depth = int(input(f"{Fore.CYAN} Глубина выгрузки (Число от 1 до {int(count/200)})>> "))
             
             
-            with open("messages.txt", "w", encoding="UTF-8") as file:
+            with open("messages.txt", "a", encoding="UTF-8") as file:
                 for j in range(0, depth):
                     print(f"{Fore.CYAN} Обращение номер: {j+1}")
                     a = vk.method("messages.getHistory", {"count": 200, "offset": j*200, "peer_id": -91050183})["items"]
