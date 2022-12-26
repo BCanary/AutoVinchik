@@ -1,5 +1,7 @@
 # AutoVinchik
 
+**Приложение доступно на: windows, linux, termux**
+
 ![изображение](https://user-images.githubusercontent.com/59798021/137908712-f20f8aa3-a591-4268-8ea5-c11257bda587.png)
 
 <b>I am the owner of my vkontakte<br>
