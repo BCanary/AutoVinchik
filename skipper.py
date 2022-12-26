@@ -70,7 +70,7 @@ def checkSkip(text):
     if not config_is_loaded:
         config = load_config()
         config_is_loaded = True
-    text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ").strip()
+    text = text.replace("нашел кое-кого для тебя, смотри:", "").replace("\n", " ").strip().lower()
     for i in config["WHITELIST"]:
         if i in text:
             print("\n")
