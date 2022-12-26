@@ -113,8 +113,8 @@ def vkontakte():
             input(f"{Fore.CYAN}Для пропуска анкеты нажмите ENTER")
             vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
     except vk_api.exceptions.Captcha:
-        print(f"{Fore.RED}[КАПЧА]{Fore.WHITE} Пожалуйста, войдите в вк, попробуйте отправить сообщение и введите капчу!")
-
+        input(f"{Fore.RED}[КАПЧА]{Fore.WHITE} Пожалуйста, войдите в вк, попробуйте отправить сообщение и введите капчу!")
+        
 leave_config = False
 while True:
     os.system("cls")
