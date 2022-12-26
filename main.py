@@ -91,7 +91,10 @@ def telegram():
         input(f"{Fore.CYAN}Для пропуска анкеты нажмите ENTER")
         client.send_message(BOT, emoji.emojize(":thumbs_down:"))
 
+cap_sid = False
+cap_code = False
 def vkontakte():
+    global cap_sid, cap_code
     try:
         print(f"{Fore.CYAN}VK |{Fore.RESET} ", end="")
         message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
@@ -99,7 +102,7 @@ def vkontakte():
         skip = checkSkip(message)
         try:
             if type(skip) == type(1):
-                vk.method("messages.send", {"peer_id": -91050183, "message": str(skip), "random_id": get_random_id()})
+                vk.method("messages.send", {"peer_id": -91050183, "message": str(skip), "random_id": get_random_id(), "captcha_sid":cap_sid, "captcha_key":cap_code})
                 time.sleep(2)
                 message = vk.method("messages.getHistory", {"count": 1, "peer_id": -91050183})["items"][0]["text"].lower()
                 skip = checkSkip(message)
@@ -107,14 +110,16 @@ def vkontakte():
             pass
 
         if (skip):
-            vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
+            vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id(), "captcha_sid":cap_sid, "captcha_key":cap_code})
             time.sleep(config["DELAY_VK"])
         else:
             input(f"{Fore.CYAN}Для пропуска анкеты нажмите ENTER")
-            vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id()})
-    except vk_api.exceptions.Captcha:
-        input(f"{Fore.RED}[КАПЧА]{Fore.WHITE} Пожалуйста, войдите в вк, попробуйте отправить сообщение и введите капчу!")
-        
+            vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id(),"captcha_sid":cap_sid, "captcha_key":cap_code})
+    except vk_api.exceptions.Captcha as ex:
+        print(ex.get_url())
+        cap_sid = ex.sid
+        cap_code = input(f"{Fore.RED}[КАПЧА]{Fore.WHITE} Пожалуйста, введите капчу по ссылке выше: ")
+
 leave_config = False
 while True:
     os.system("cls")

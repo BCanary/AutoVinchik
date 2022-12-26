@@ -10,5 +10,6 @@ stat.txt
 *.txt
 !quotes.txt
 !banner.txt
+!changelog.txt
 *.mp3
 *.yml
