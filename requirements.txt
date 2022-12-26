@@ -2,7 +2,3 @@ vk_api
 Telethon
 emoji
 colorama
-<<<<<<< HEAD
-playsound==1.2.2
-=======
->>>>>>> 37a708631568108b260fcc6d1dfc5384707ba5f7
