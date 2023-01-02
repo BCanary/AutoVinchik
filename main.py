@@ -189,7 +189,7 @@ while True:
                     print(f"{Fore.CYAN}Все пробелы заменены на \"_\"")
                     print(f"{Fore.CYAN}ID | Все значения:")
                     for index, i in enumerate(config[type]):
-                        print(f"{Fore.CYAN}[{index}]{Fore.RESET}. {i.replace("_")}")
+                        print(f"{Fore.CYAN}[{index}]{Fore.RESET}. {i.replace('_')}")
                     print("\n")
                     print(f"{Fore.CYAN}Можно указать сразу несколько значений через точку с запятой (;)\n" + 
                           "Целым словом будет считаться слово отделённое пробелами:\n" + 
