@@ -186,11 +186,16 @@ while True:
                 while True:
                     system_clear()
                     logo()
+                    print(f"{Fore.CYAN}Все пробелы заменены на \"_\"")
                     print(f"{Fore.CYAN}ID | Все значения:")
                     for index, i in enumerate(config[type]):
-                        print(f"{Fore.CYAN}[{index}]{Fore.RESET}. {i}")
+                        print(f"{Fore.CYAN}[{index}]{Fore.RESET}. {i.replace("_")}")
                     print("\n")
-                    print(f"{Fore.CYAN}Можно указать сразу несколько значений через точку с запятой (;)")
+                    print(f"{Fore.CYAN}Можно указать сразу несколько значений через точку с запятой (;)\n" + 
+                          "Целым словом будет считаться слово отделённое пробелами:\n" + 
+                          "{Fore.WHITE}\" ит \"{Fore.CYAN} - целое слово, выбираются анкеты только с целым вхождением\n" +
+                          "{Fore.WHITE}\"ит\"{Fore.CYAN} - обычное вхождение, будет выбирать все анкеты где оно есть {Fore.WHITE}(пр. \"ИТалия\", \"звонИТ\", \"бИТкойн\")"
+                          )
                     print(f"{Fore.CYAN}[1].{Fore.RESET} Удалить значения")
                     print(f"{Fore.CYAN}[2].{Fore.RESET} Добавить значения")
                     print(f"{Fore.CYAN}[0].{Fore.RESET} Выход из редактора")
@@ -204,7 +209,7 @@ while True:
                         while "//TODELETE//" in config[type]:
                             config[type].remove("//TODELETE//")
                     elif do == "2":
-                        new_value = input(f"{Fore.CYAN}Новые значение: {Fore.RESET}")
+                        new_value = input(f"{Fore.CYAN}Новые значения: {Fore.RESET}")
                         for i in new_value.split(";"):
                             config[type].append(i.lower())
                     update_config(config)
