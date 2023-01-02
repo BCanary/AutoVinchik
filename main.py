@@ -11,15 +11,22 @@ import colorama
 from colorama import Fore
 import random
 from collections import Counter
+from sys import platform
 
 is_vk_connected = False
 is_tg_connected = False
 #logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
-os.system("alias cls=\"clear\"") # Иногда мой внутренний гений. Он просто меня пугает
+# os.system("alias cls=\"clear\"") # Иногда мой внутренний гений. Он просто меня пугает
+
+def system_clear():
+    if platform == "linux" or platform == "linux2":
+            os.system("clear")
+    elif platform == "win32":
+            os.system("cls")
 
 colorama.init(autoreset=True)
-os.system("cls")
+system_clear()
 def logo():
     with open("banner.txt", "r", encoding="UTF-8") as file:
         for i in file.readlines():
@@ -111,29 +118,34 @@ def vkontakte():
 
         if (skip):
             vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id(), "captcha_sid":cap_sid, "captcha_key":cap_code})
-            time.sleep(config["DELAY_VK"])
+            time.sleep(config["DELAY_VK"]+random.uniform(0,1.31415))
         else:
             input(f"{Fore.CYAN}Для пропуска анкеты нажмите ENTER")
             vk.method("messages.send", {"peer_id": -91050183, "message": "3", "random_id": get_random_id(),"captcha_sid":cap_sid, "captcha_key":cap_code})
     except vk_api.exceptions.Captcha as ex:
         print(ex.get_url())
+        os.system(f"start {ex.get_url()}")
         cap_sid = ex.sid
         cap_code = input(f"{Fore.RED}[КАПЧА]{Fore.WHITE} Пожалуйста, введите капчу по ссылке выше: ")
+        
 
 leave_config = False
 while True:
-    os.system("cls")
+    system_clear()
     logo()
+    print(f"{Fore.CYAN}[e].{Fore.RESET} Выход")
     print(f"{Fore.CYAN}[0].{Fore.RESET} Конфигурация")
     print(f"{Fore.CYAN}[1].{Fore.RESET} Поиск только по телеграм")
     print(f"{Fore.CYAN}[2].{Fore.RESET} Поиск только по вконтакте")
     print(f"{Fore.CYAN}[3].{Fore.RESET} Комбинированный поиск")
     print(f"{Fore.CYAN}[4].{Fore.RESET} Подвести статистику")
     do = input(f"{Fore.CYAN}>>>{Fore.RESET} ")
-
+    
+    if do.lower() == "e":
+        exit()
     if do == "0":
         while True:
-            os.system("cls")
+            system_clear()
             logo()
             neutral = Fore.RED
             n_text = "Отключено"
@@ -172,7 +184,7 @@ while True:
                 if do == "4":
                     type = "WHITELIST"
                 while True:
-                    os.system("cls")
+                    system_clear()
                     logo()
                     print(f"{Fore.CYAN}ID | Все значения:")
                     for index, i in enumerate(config[type]):
@@ -377,7 +389,7 @@ while True:
         input(f"\n{Fore.GREEN} Завершено: Нажмите ENTER")
         continue
 
-    os.system("cls")
+    system_clear()
     logo()
     print(f"{Fore.CYAN}{random.choice(quotes)}")
     time.sleep(1)
