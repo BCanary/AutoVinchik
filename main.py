@@ -142,6 +142,7 @@ while True:
     do = input(f"{Fore.CYAN}>>>{Fore.RESET} ")
     
     if do.lower() == "e":
+        system_clear()
         exit()
     if do == "0":
         while True:
@@ -189,12 +190,12 @@ while True:
                     print(f"{Fore.CYAN}Все пробелы заменены на \"_\"")
                     print(f"{Fore.CYAN}ID | Все значения:")
                     for index, i in enumerate(config[type]):
-                        print(f"{Fore.CYAN}[{index}]{Fore.RESET}. {i.replace('_')}")
+                        print(f"{Fore.CYAN}[{index}]{Fore.RESET}. {i.replace(' ', '_')}")
                     print("\n")
-                    print(f"{Fore.CYAN}Можно указать сразу несколько значений через точку с запятой (;)\n" + 
-                          "Целым словом будет считаться слово отделённое пробелами:\n" + 
-                          "{Fore.WHITE}\" ит \"{Fore.CYAN} - целое слово, выбираются анкеты только с целым вхождением\n" +
-                          "{Fore.WHITE}\"ит\"{Fore.CYAN} - обычное вхождение, будет выбирать все анкеты где оно есть {Fore.WHITE}(пр. \"ИТалия\", \"звонИТ\", \"бИТкойн\")"
+                    print(f"{Fore.CYAN}Можно указать сразу несколько значений через точку с запятой (;).\n\n" + 
+                          f"{Fore.GREEN}Целым словом будет считаться слово отделённое пробелами:\n" + 
+                          f"{Fore.WHITE}\" ит \"{Fore.CYAN} - целое слово, выбираются анкеты только с целым вхождением;\n" +
+                          f"{Fore.WHITE}\"ит\"{Fore.CYAN} - обычное вхождение, будет выбирать все анкеты где оно есть {Fore.WHITE}(пр. \"ИТалия\", \"звонИТ\", \"бИТкойн\").\n"
                           )
                     print(f"{Fore.CYAN}[1].{Fore.RESET} Удалить значения")
                     print(f"{Fore.CYAN}[2].{Fore.RESET} Добавить значения")
